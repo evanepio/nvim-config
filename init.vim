@@ -13,9 +13,13 @@ Plug 'vim-airline/vim-airline'
 
 " Autocomplete
 Plug 'Shougo/deoplete.nvim'
+Plug 'zchee/deoplete-jedi'
 
 " Misc programming support
 Plug 'sheerun/vim-polyglot'
+
+" Asynchronous Lint Engine
+Plug 'w0rp/ale'
 
 " File browsing
 Plug 'scrooloose/nerdtree'
@@ -33,6 +37,9 @@ call plug#end()
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+
+" Run filetype plugin to activate more settings for specific filetypes
+filetype plugin on
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
