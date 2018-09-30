@@ -41,8 +41,11 @@ endif
 " Run filetype plugin to activate more settings for specific filetypes
 filetype plugin on
 
-" Use deoplete.
+" Use deoplete for completion
 let g:deoplete#enable_at_startup = 1
+
+" Don't use ALE completion
+let g:ale_completion_enabled = 0
 
 " have a tabline showing all opened files, sorta
 let g:airline#extensions#tabline#enabled=1
