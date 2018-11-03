@@ -11,15 +11,8 @@ Plug 'tpope/vim-fugitive'
 " Fancy UI
 Plug 'vim-airline/vim-airline'
 
-" Autocomplete
-Plug 'Shougo/deoplete.nvim'
-Plug 'zchee/deoplete-jedi'
-
 " Misc programming support
 Plug 'sheerun/vim-polyglot'
-
-" Asynchronous Lint Engine
-Plug 'w0rp/ale'
 
 " File browsing
 Plug 'scrooloose/nerdtree'
@@ -31,6 +24,12 @@ Plug 'junegunn/fzf.vim'
 " Search in files
 Plug 'mileszs/ack.vim'
 
+" Language Server Client
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
 call plug#end()
 
 " Use Silver Searcher if available
@@ -41,17 +40,17 @@ endif
 " Run filetype plugin to activate more settings for specific filetypes
 filetype plugin on
 
-" Use deoplete for completion
-let g:deoplete#enable_at_startup = 1
-
-" Don't use ALE completion
-let g:ale_completion_enabled = 0
-
 " have a tabline showing all opened files, sorta
 let g:airline#extensions#tabline#enabled=1
 
 " Set Python3 virtual environment to use - create new venv just for nvim use
 let g:python3_host_prog = '/Users/evanporter/venvs/py3nvim/bin/python'
+
+" Automatically start language servers.
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['~/venvs/py3nvim/bin/pyls'],
+    \ }
+let g:LanguageClient_autoStart = 1
 
 " Show current line number and show other lines as how many away from current
 " line. Useful for vim line moving.
@@ -65,7 +64,8 @@ set laststatus=2
 
 set modelines=0
 
-" Allow navigating away from unsaved buffers and probably other stuff
+" Allow navigating away from unsaved buffers and Language Server refactoring
+" operations like rename
 set hidden
 
 set autoindent
@@ -83,3 +83,9 @@ nnoremap <silent><space> :NERDTreeToggle<CR>
 nnoremap <leader>o :Files<cr>
 nnoremap <leader>f :Ag<cr>
 nnoremap ; :
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <leader>2 :call LanguageClient_textDocument_rename()<CR>
+
+nnoremap <leader>p :pc<CR>
